@@ -1,0 +1,5 @@
+# local caches
+__pycache__
+
+# debug files
+debug.txt
