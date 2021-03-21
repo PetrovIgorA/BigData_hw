@@ -35,7 +35,7 @@ class HTMLCleaner:
                 char_name = BeautifulSoup(str(td_elems[0]), 'html.parser').find("span").text.strip().replace('\n', '')
                 val_name = BeautifulSoup(str(td_elems[1]), 'html.parser').find("div").text.strip().replace('\n', '')
                 #hw_base.debug(char_name, val_name)
-                self.characteristics.append((char_name, val_name))
+                self.characteristics.append((char_name.replace('\"', ''), val_name.replace('\"', '')))
                 
 
     def __clear_citilink(self):
@@ -61,7 +61,7 @@ class HTMLCleaner:
                 char_name = char_name[:end_of_char_name]
                 val_name = BeautifulSoup(str(row), 'html.parser').find("div", class_=CHAR_VALUE_STR).text.strip().replace('\n', '')
                 #hw_base.debug(char_name, val_name)
-                self.characteristics.append((char_name, val_name))
+                self.characteristics.append((char_name.replace('\"', ''), val_name.replace('\"', '')))
             
 
 if __name__ == "__main__":
