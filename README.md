@@ -11,12 +11,12 @@ All raw html-files in `raw_data`
 
 ### HW 1
 
-Here is converted raw data to target schema (html -> json). I use 2 MRjob steps (`html_to_json.py`):
+Here is converted raw data to target schema (html -> json). I use 2 MRjob steps (`hw01_html_to_json.py`):
 
-1. Clear raw data (delete useless info, extract usefull parameters), use preparsing in `clear_html.py`, save in `converted_data`
-2. Make json files in alone schema (now we have same attribute names), use my small regular expression in `my_regexp.py`, save in `target_data`
+1. Clear raw data (delete useless info, extract usefull parameters), use preparsing in `hw01_clear_html.py`, save in `converted_data`
+2. Make json files in alone schema (now we have same attribute names), use my small regular expression in `hw01_my_regexp.py`, save in `target_data`
 
 #### Run
 ```
-python main_convert.py
+python hw01_main_convert.py
 ```

@@ -3,9 +3,9 @@ import os
 WORKSPACE_PATH = os.path.dirname(__file__)
 RAW_DATA_PATH = WORKSPACE_PATH + "/raw_data"
 CONVERTED_DATA_PATH = WORKSPACE_PATH + "/converted_data"
-TARGET_CHARACTERISTICS_PATH = WORKSPACE_PATH + "/target_characteristics.txt"
+TARGET_CHARACTERISTICS_PATH = WORKSPACE_PATH + "/hw01_target_characteristics.txt"
 TARGET_DATA_PATH = WORKSPACE_PATH + "/target_data"
-DEBUG_FILE_PATH = WORKSPACE_PATH + "/debug.txt"
+DEBUG_FILE_PATH = WORKSPACE_PATH + "/debug/debug.txt"
 
 UNUSED_CHARACTERISTICS_NAME = "Unused"
 

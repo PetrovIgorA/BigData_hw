@@ -1,8 +1,8 @@
 from mrjob.job import MRJob
 from mrjob.job import MRStep
 import hw_base
-from my_regexp import myregexp
-from clear_html import HTMLCleaner
+from hw01_my_regexp import myregexp
+from hw01_clear_html import HTMLCleaner
 import sys
 
 shopname = ""
@@ -53,6 +53,8 @@ class MRHTML2JSON(MRJob):
                             MRHTML2JSON.make_target_characteristic,
                             MRHTML2JSON.is_target_characteristic
                         )
+        with open(hw_base.TARGET_DATA_PATH + "/" + shopname + ".txt", "a", encoding="utf-8") as keys_list_file:
+            keys_list_file.write(key + '\n')
 
     def steps(self):
         return [
@@ -78,15 +80,20 @@ class MRHTML2JSON(MRJob):
         with open(filename, "a", encoding="utf-8") as json_file:
             json_file.write("\t\t{\n")
             json_file.write("\t\t\"Smartphone\": \"" + title + "\",\n")
-            json_file.write("\t\t\"characteristics\": {\n")
+            json_file.write("\t\t\"characteristics\": {")
             char_count = len(characteristics)
+            is_first = True
             for i in range(0, char_count - 1):
                 char = make_target_char(characteristics[i])
                 if is_target_char(char):
-                    json_file.write("\t\t\t\"" + char[0] + "\": \"" + char[1] +"\",\n")
+                    if is_first:
+                        json_file.write("\n\t\t\t\"" + char[0] + "\": \"" + char[1] +"\"")
+                        is_first = False
+                    else:
+                        json_file.write(",\n\t\t\t\"" + char[0] + "\": \"" + char[1] +"\"")
             char = make_target_char(characteristics[char_count - 1])
-            if is_target_char(char): 
-                json_file.write("\t\t\t\"" + char[0] + "\": \"" + char[1] +"\"\n")
+            if is_target_char(char):
+                json_file.write(",\n\t\t\t\"" + char[0] + "\": \"" + char[1] +"\"\n")
             json_file.write("\t\t}\n\t},\n")
 
 with open(sys.argv[1], "r") as input_file:

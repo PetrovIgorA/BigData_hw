@@ -42,7 +42,7 @@ def find_cond(text : str, reg : str, value : str):
         return hw_base.UNUSED_CHARACTERISTICS_NAME
     else:
         other_reg = reg[:index_s]
-        hw_base.debug(reg, other_reg)
+        #hw_base.debug(reg, other_reg)
         for variant in variants:
             if text.find(variant) == len(other_reg) and text[:len(other_reg)] == other_reg and len(other_reg) + len(variant) == len(text):
                 return value
