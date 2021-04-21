@@ -4,6 +4,7 @@
 ```
 python hw_main.py
 ```
+__Note__: Before run all homeworks, clear `converted_data`, `target_data` folders and delete `tmp_data` folder if it exists.
 
 ### HW 0
 
