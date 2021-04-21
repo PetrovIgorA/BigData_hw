@@ -36,3 +36,14 @@ Here, data from different sources is linked (via MapReduce) using a unique ident
 ```
 python hw02_main.py
 ```
+
+### HW 3
+
+Data fusion
+
+The input data is located in `er_data` folder. Here, data linked by a common attribute is fused into one file `fusion_data/fusion.json` via `fuse_by` function. Data without link with other source is added in result file.
+
+#### Run
+```
+python hw03_main.py
+```
