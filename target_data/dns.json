@@ -52,6 +52,22 @@
 		}
 	},
 		{
+		"Smartphone": "Nokia C1 Plus 16 ГБ красный",
+		"characteristics": {
+			"Гарантия": "12 мес.",
+			"3G": "WCDMA 850, WCDMA 900, WCDMA 2100",
+			"4G": "есть",
+			"5G": "нет",
+			"Количество SIM-карт": "2 SIM",
+			"Разрешение экрана": "1440x720",
+			"Объем встроенной памяти": "16 ГБ",
+			"Стандарт Bluetooth": "4.2",
+			"Wi-Fi": "4 (802.11n)",
+			"NFC": "нет",
+			"Вес": "146 г"
+		}
+	},
+		{
 		"Smartphone": "Samsung Galaxy A01 Core 16 ГБ красный",
 		"characteristics": {
 			"Гарантия": "12 мес.",
@@ -86,7 +102,7 @@
 		}
 	},
 	{
-		"Smartphones count": "5"
+		"Smartphones count": "6"
 	}
 ]
 }

@@ -30,7 +30,7 @@ python hw01_main_convert.py
 
 Entity resolution: record linkage
 
-Here, data from different sources is linked (via MapReduce) using a unique identifier. If value in unique identifier befor `-` is same as value after `-` then record linkage works correctly. The input data is located in `target_data` folder. The output data is located in `er_data` folder.
+Here, data from different sources is linked (via MapReduce) using a unique identifier. The input data is located in `target_data` folder. The output data is located in `er_data` folder.
 
 #### Run
 ```

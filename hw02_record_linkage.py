@@ -27,7 +27,8 @@ class MRRecordLinkage(MRJob):
         second_id = MRRecordLinkage.record_linkage(value, self.jsons[self.__FIRST_SHOP].characteristics(value), self.jsons[self.__SECOND_SHOP])
         unique_id = MRRecordLinkage.make_unique_id(first_id, second_id)
         yield self.__FIRST_SHOP, (first_id, unique_id)
-        yield self.__SECOND_SHOP, (second_id, unique_id)
+        if second_id != -1:
+            yield self.__SECOND_SHOP, (second_id, unique_id)
 
     def er_reducer(self, key, values):
         list_ids = list(values)
@@ -39,8 +40,9 @@ class MRRecordLinkage(MRJob):
         result = dict()
         for unique_id, data in values:
             result.update({unique_id : data})
+        if key == 1:
+            result = self.add_second_source(result)
         JSONFile.save(hw_base.ER_DATA_PATH + '/' + self.__SHOPS[key] + ".json", result)
-
 
     def steps(self):
         return [
@@ -55,19 +57,35 @@ class MRRecordLinkage(MRJob):
         result_characteristics.update({JSONFile.SMARTPHONE_STR : title})
         return result_characteristics
 
+    def add_second_source(self, result: dict) -> dict:
+        for title in self.jsons[1].data.keys():
+            iid = self.jsons[1].get_id(title)
+            found = False
+            for unique_id in result.keys():
+                second_iid = unique_id.split('-')[1]
+                if int(second_iid) == iid:
+                    found = True
+            if not found:
+                result.update({MRRecordLinkage.make_unique_id(-1, iid) : self.make_data(self.jsons[1], iid)})
+        return result
+
+
     @staticmethod
     def record_linkage(first_title: str, first_characteristics: dict, second_smartphones) -> int:
         min_dists = [(1000000000000, {})]
+        found = False
         for title, characteristics in second_smartphones.data.items():
-            current_dist = MRRecordLinkage.levenshtein_distance(first_title.lower(), title.lower())
             #hw_base.debug(current_dist, first_title, title)
-            if min_dists[0][0] > current_dist:
-                min_dists = [(current_dist, characteristics)]
-            elif min_dists[0][0] == current_dist:
-                min_dists.append((current_dist, characteristics))
-        if len(min_dists) == 1:
-            return min_dists[0][1].get(JSONFile.INTERNAL_ID_STR)
-        second_characteristics = [chars for dist, chars in min_dists]
+            if first_title.split()[0].lower() == title.split()[0].lower():
+                found = True
+                current_dist = MRRecordLinkage.levenshtein_distance(first_title.lower(), title.lower())
+                if min_dists[0][0] > current_dist:
+                    min_dists = [(current_dist, characteristics)]
+                elif min_dists[0][0] == current_dist:
+                    min_dists.append((current_dist, characteristics))
+        if not found:
+            return -1
+        second_characteristics = [chars for _, chars in min_dists]
         # Resolve duplicates by characteristics for many same distances
         return MRRecordLinkage.resolve_duplicates(first_characteristics, second_characteristics)
 
@@ -101,12 +119,16 @@ class MRRecordLinkage(MRJob):
     def resolve_duplicates(first_characteristics: dict, second_characteristics: list) -> int:
         for characteristic in second_characteristics:
             if first_characteristics.get(JSONFile.MEMORY_STR) == characteristic.get(JSONFile.MEMORY_STR):
-                if first_characteristics.get(JSONFile.SCREEN_STR) == characteristic.get(JSONFile.SCREEN_STR):
+                if first_characteristics.get(JSONFile.SCREEN_STR).replace('х', 'x') == characteristic.get(JSONFile.SCREEN_STR).replace('х', 'x'):
                     return characteristic.get(JSONFile.INTERNAL_ID_STR)
         return -1
 
     @staticmethod
     def make_unique_id(first_id: int, second_id: int):
+        if first_id == -1:
+            return "-" + str(second_id)
+        if second_id == -1:
+            return str(first_id) + "-"
         return str(first_id) + "-" + str(second_id)
 
 runner = MRRecordLinkage()

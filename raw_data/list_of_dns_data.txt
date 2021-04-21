@@ -3,3 +3,4 @@ dns/raw_data_02.html
 dns/raw_data_03.html
 dns/raw_data_04.html
 dns/raw_data_05.html
+dns/raw_data_06.html
